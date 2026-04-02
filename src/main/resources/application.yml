@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: news-agent
+
+news:
+  sources:
+    rss:
+      - url: "https://www.derstandard.at/rss/inland"
+        category: "inland"
+      - url: "https://www.derstandard.at/rss/wirtschaft"
+        category: "wirtschaft"
+      - url: "https://rss.orf.at/news.xml"
+        category: "inland"
+      - url: "https://feeds.bbci.co.uk/news/world/rss.xml"
+        category: "international"
+      - url: "https://hnrss.org/frontpage"
+        category: "tech"
+
+    newsapi:
+      base-url: "https://newsapi.org/v2"
+      api-key: ${NEWSAPI_KEY:demo}
+      country: "at"
+
+logging:
+  level:
+    com.newsagent: DEBUG
