@@ -28,7 +28,7 @@ public class NewsPromptBuilder {
             """);
 
         articles.stream()
-            .limit(5)
+            .limit(30)
             .forEach(article -> {
                 sb.append("\n---\n");
                 sb.append("Quelle: ").append(article.getSource()).append("\n");

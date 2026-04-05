@@ -4,7 +4,7 @@ spring:
 
 news:
   analysis:
-    provider: gemini  #claude #openAI
+    provider: groq #gemini  #claude #openAI
   sources:
     rss:
       - url: "https://www.derstandard.at/rss/inland"
@@ -35,6 +35,11 @@ gemini:
   model: "gemini-2.0-flash"
   max-tokens: 1500
 
+groq:
+  api-key: ${GROQ_API_KEY}
+  base-url: "https://api.groq.com"
+  model: "llama-3.3-70b-versatile"
+  max-tokens: 1500
 
 logging:
   level:
