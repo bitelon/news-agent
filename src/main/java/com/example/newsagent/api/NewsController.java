@@ -1,9 +1,12 @@
 package com.example.newsagent.api;
 
 import com.example.newsagent.dto.NewsItemDto;
+import com.example.newsagent.feed.ClaudeAnalysisService;
 import com.example.newsagent.feed.FeedCollectorService;
+import com.example.newsagent.feed.NewsAnalysisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +23,12 @@ public class NewsController {
             LoggerFactory.getLogger(NewsController.class);
 
     private final FeedCollectorService collectorService;
+    private final NewsAnalysisService newsAnalysisService;
 
-    public NewsController(FeedCollectorService collectorService) {
+    public NewsController(FeedCollectorService collectorService,
+                          NewsAnalysisService newsAnalysisService) {
         this.collectorService = collectorService;
+        this.newsAnalysisService = newsAnalysisService;
     }
 
     @GetMapping
@@ -39,5 +45,12 @@ public class NewsController {
                 .filter(item -> category.equalsIgnoreCase(item.getCategory()))
                 .toList();
         return ResponseEntity.ok(news);
+    }
+    @GetMapping("/briefing")
+    public ResponseEntity<String> getBriefing() {
+        log.info("GET /api/news/briefing called");
+        var articles = collectorService.collectAll();
+        var briefing = newsAnalysisService.analyze(articles);
+        return ResponseEntity.ok(briefing);
     }
 }

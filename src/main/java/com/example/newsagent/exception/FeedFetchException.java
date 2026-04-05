@@ -1,5 +1,8 @@
 package com.example.newsagent.exception;
 
+import lombok.Getter;
+
+@Getter
 public class FeedFetchException extends RuntimeException {
 
     private final String feedUrl;
@@ -9,7 +12,4 @@ public class FeedFetchException extends RuntimeException {
         this.feedUrl = feedUrl;
     }
 
-    public String getFeedUrl() {
-        return feedUrl;
-    }
 }
