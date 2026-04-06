@@ -4,6 +4,7 @@ import com.example.newsagent.dto.NewsItemDto;
 import com.example.newsagent.feed.ClaudeAnalysisService;
 import com.example.newsagent.feed.FeedCollectorService;
 import com.example.newsagent.feed.NewsAnalysisService;
+import com.example.newsagent.feed.TelegramService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,11 +25,14 @@ public class NewsController {
 
     private final FeedCollectorService collectorService;
     private final NewsAnalysisService newsAnalysisService;
+    private final TelegramService telegramService;
 
     public NewsController(FeedCollectorService collectorService,
-                          NewsAnalysisService newsAnalysisService) {
+                          NewsAnalysisService newsAnalysisService,
+                          TelegramService telegramService) {
         this.collectorService = collectorService;
         this.newsAnalysisService = newsAnalysisService;
+        this.telegramService = telegramService;
     }
 
     @GetMapping
@@ -51,6 +55,7 @@ public class NewsController {
         log.info("GET /api/news/briefing called");
         var articles = collectorService.collectAll();
         var briefing = newsAnalysisService.analyze(articles);
+        this.telegramService.sendBriefingToUser(briefing);
         return ResponseEntity.ok(briefing);
     }
 }
