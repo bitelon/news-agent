@@ -4,7 +4,7 @@ spring:
 
 news:
   analysis:
-    provider: groq #gemini  #claude #openAI
+    provider: ${NEWS_PROVIDER:groq} #gemini  #claude #openAI
   sources:
     rss:
       - url: "https://www.derstandard.at/rss/inland"
