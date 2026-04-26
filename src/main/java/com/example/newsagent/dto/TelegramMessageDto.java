@@ -14,4 +14,7 @@ public class TelegramMessageDto {
     @JsonProperty("chat_id")
     String chatId;
     String text;
+
+    @JsonProperty("parse_mode")
+    String parseMode = "HTML";
 }

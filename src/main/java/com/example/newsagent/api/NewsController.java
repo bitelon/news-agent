@@ -55,6 +55,8 @@ public class NewsController {
         log.info("GET /api/news/briefing called");
         var articles = collectorService.collectAll();
         var briefing = newsAnalysisService.analyze(articles);
+        log.info("Briefing length: {} chars", briefing.length());
+        log.info("Briefing content: {}", briefing);
         this.telegramService.sendBriefingToUser(briefing);
         return ResponseEntity.ok(briefing);
     }

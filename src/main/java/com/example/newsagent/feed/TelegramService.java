@@ -28,13 +28,12 @@ public class TelegramService {
         var request = TelegramMessageDto.builder()
                 .chatId(config.getChatId())
                 .text(text)
+                .parseMode("HTML")
                 .build();
         try {
             var response = webClient.post()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/bot{botToken}/sendMessage")
-                            .build(config.getBotToken())
-                    ).bodyValue(request)
+                    .uri("/bot" + config.getBotToken() + "/sendMessage")
+                    .bodyValue(request)
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();

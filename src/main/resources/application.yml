@@ -7,14 +7,27 @@ news:
     provider: ${NEWS_PROVIDER:groq} #gemini  #claude #openAI
   sources:
     rss:
+      # Österreich
       - url: "https://www.derstandard.at/rss/inland"
-        category: "inland"
+        category: "oesterreich"
       - url: "https://www.derstandard.at/rss/wirtschaft"
-        category: "wirtschaft"
+        category: "oesterreich"
+      - url: "https://www.diepresse.com/rss"
+        category: "oesterreich"
+      - url: "https://kurier.at/xml/rss"
+        category: "oesterreich"
       - url: "https://rss.orf.at/news.xml"
-        category: "inland"
+        category: "oesterreich"
+
+      # International
       - url: "https://feeds.bbci.co.uk/news/world/rss.xml"
         category: "international"
+      - url: "https://rss.dw.com/rdf/rss-en-all"
+        category: "international"
+      - url: "https://www.theguardian.com/world/rss"
+        category: "international"
+
+      # Tech
       - url: "https://hnrss.org/frontpage"
         category: "tech"
 

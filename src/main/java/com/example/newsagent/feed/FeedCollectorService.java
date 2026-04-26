@@ -2,6 +2,7 @@ package com.example.newsagent.feed;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.newsagent.config.NewsSourcesConfig;
 import com.example.newsagent.dto.NewsItemDto;
@@ -33,6 +34,11 @@ public class FeedCollectorService {
                 .flatMap(feedConfig -> fetchSafely(feedConfig).stream())
                 .toList();
 
+        allNews.stream()
+                .collect(Collectors.groupingBy(NewsItemDto::getSource, Collectors.counting()))
+                .forEach((source, count) ->
+                        log.info("Source: {} → {} articles", source, count));
+
         log.info("Collected {} articles total", allNews.size());
         return allNews;
     }
@@ -46,9 +52,9 @@ public class FeedCollectorService {
                     feedConfig.getCategory()
             );
         } catch (FeedFetchException e) {
-            // Ein Feed schlägt fehl — aber die anderen laufen weiter
+            // Cause mitloggen — das zeigt den echten Fehler
             log.warn("Skipping feed {} due to error: {}",
-                    feedConfig.getUrl(), e.getMessage());
+                    feedConfig.getUrl(), e.getMessage(), e.getCause());
             return List.of();
         }
     }
