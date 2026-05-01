@@ -9,6 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class TelegramConfig {
     private String botToken;
-    private String chatId;
     private String baseUrl;
 }

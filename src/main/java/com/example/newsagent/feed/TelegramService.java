@@ -15,18 +15,26 @@ public class TelegramService {
 
     private final WebClient webClient;
     private final TelegramConfig config;
+    private final ChatIdRepository chatIdRepository;
 
-    public TelegramService(TelegramConfig config) {
+    public TelegramService(TelegramConfig config, ChatIdRepository chatIdRepository) {
         this.config = config;
         this.webClient = WebClient.builder()
                 .baseUrl(config.getBaseUrl())
                 .defaultHeader("content-type", "application/json")
                 .build();
+        this.chatIdRepository = chatIdRepository;
     }
 
     public void sendBriefingToUser(String text) {
+        var chatIds = chatIdRepository.findAll();
+        log.info("Sending briefing to {} subscribers", chatIds.size());
+        chatIds.forEach(chatId -> sendToChat(chatId, text));
+    }
+
+    private void sendToChat(String chatId, String text) {
         var request = TelegramMessageDto.builder()
-                .chatId(config.getChatId())
+                .chatId(chatId)
                 .text(text)
                 .parseMode("HTML")
                 .build();

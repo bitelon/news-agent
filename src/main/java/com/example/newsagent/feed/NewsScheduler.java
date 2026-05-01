@@ -24,8 +24,8 @@ public class NewsScheduler {
         this.telegramService = telegramService;
     }
 
-    @Scheduled(cron = "0 0 7 * * *") // jeden Tag um 7 in der früh
-    //@Scheduled(cron = "0 * * * * *")  // jede Minute
+    @Scheduled(cron = "0 0 8 * * *", zone = "Europe/Vienna") // jeden Tag um 7 in der früh
+   //@Scheduled(cron = "0 * * * * *")  // jede Minute
     public void sendMorningBriefing() {
         log.info("Scheduler triggered — starting morning briefing");
         try {
