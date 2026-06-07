@@ -8,6 +8,7 @@ import com.example.newsagent.feed.TelegramService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,11 +54,18 @@ public class NewsController {
     @GetMapping("/briefing")
     public ResponseEntity<String> getBriefing() {
         log.info("GET /api/news/briefing called");
-        var articles = collectorService.collectAll();
-        var briefing = newsAnalysisService.analyze(articles);
-        log.info("Briefing length: {} chars", briefing.length());
-        log.info("Briefing content: {}", briefing);
-        this.telegramService.sendBriefingToUser(briefing);
-        return ResponseEntity.ok(briefing);
+        try {
+            var articles = collectorService.collectAll();
+            var briefing = newsAnalysisService.analyze(articles);
+            log.info("Briefing length: {} chars", briefing.length());
+            log.info("Briefing content: {}", briefing);
+            this.telegramService.sendBriefingToUser(briefing);
+            return ResponseEntity.ok(briefing);
+        } catch (Exception e) {
+            log.error("Briefing failed" , e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Briefing failed: " + e.getMessage());
+        }
+
     }
 }

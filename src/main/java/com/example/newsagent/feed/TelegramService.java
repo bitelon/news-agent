@@ -54,7 +54,6 @@ public class TelegramService {
 
         } catch (Exception e) {
             log.error("Failed to send message via Telegram Bot", e);
-            throw new RuntimeException("Faild to send message via Telegram Bot", e);
         }
     }
 }
